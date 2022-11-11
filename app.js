@@ -23,7 +23,7 @@ class App{
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true } );
         this.renderer.setPixelRatio( window.devicePixelRatio );
         this.renderer.setSize( window.innerWidth, window.innerHeight );
-        this.renderer.outputEncoding = THREE.sRGBEncoding;
+        // this.renderer.outputEncoding = THREE.sRGBEncoding;
 
         container.appendChild( this.renderer.domElement );
 
@@ -65,6 +65,13 @@ class App{
         controller = this.renderer.xr.getController( 0 );
         controller.addEventListener( 'select', onSelect );
         this.scene.add( controller );
+
+
+        const material2 = new THREE.MeshPhongMaterial( { color: 0xffffff * Math.random() } );
+        const mesh2 = new THREE.Mesh( this.geometry, material2 );
+        mesh2.position.set( 0, 0, - 0.3 ).applyMatrix4( controller.matrixWorld );
+        mesh2.quaternion.setFromRotationMatrix( controller.matrixWorld );
+        this.scene.add( mesh2 );
 
         this.renderer.setAnimationLoop( this.render.bind(this) );
     }
